@@ -171,26 +171,27 @@ docker images my-agent:develop
 ###  Exercise 2.3: Multi-stage build
 
 ```bash
-cd ../production
+# Đọc Dockerfile từ thư mục production
+# (vẫn chạy lệnh từ project root)
 ```
 
-**Nhiệm vụ:** Đọc `Dockerfile` và tìm:
+**Nhiệm vụ:** Đọc `02-docker/production/Dockerfile` và tìm:
 - Stage 1 làm gì?
 - Stage 2 làm gì?
 - Tại sao image nhỏ hơn?
 
-Build và so sánh:
+Build và so sánh (chạy từ project root):
 ```bash
-docker build -t my-agent:advanced .
+docker build -f 02-docker/production/Dockerfile -t my-agent:advanced .
 docker images | grep my-agent
 ```
 
 ###  Exercise 2.4: Docker Compose stack
 
-**Nhiệm vụ:** Đọc `docker-compose.yml` và vẽ architecture diagram.
+**Nhiệm vụ:** Đọc `02-docker/production/docker-compose.yml` và vẽ architecture diagram.
 
 ```bash
-docker compose up
+docker compose -f 02-docker/production/docker-compose.yml up --build
 ```
 
 Services nào được start? Chúng communicate thế nào?
@@ -824,27 +825,37 @@ def check_budget(user_id: str):
 #### Step 9: Test locally (5 phút)
 
 ```bash
-docker compose up --scale agent=3
+# Chạy từ thư mục 06-lab-complete
+cd 06-lab-complete
+cp .env.example .env
+docker compose up --build
 
 # Test all endpoints
-curl http://localhost/health
-curl http://localhost/ready
-curl -H "X-API-Key: secret" http://localhost/ask -X POST \
+curl http://localhost:8000/health
+curl http://localhost:8000/ready
+
+API_KEY=$(grep AGENT_API_KEY .env | cut -d= -f2)
+curl -H "X-API-Key: $API_KEY" http://localhost:8000/ask -X POST \
   -H "Content-Type: application/json" \
-  -d '{"question": "Hello", "user_id": "user1"}'
+  -d '{"question": "Hello"}'
 ```
 
 #### Step 10: Deploy (10 phút)
 
 ```bash
-# Railway
-railway init
-railway variables set REDIS_URL=...
-railway variables set AGENT_API_KEY=...
-railway up
+# Render (Khuyến nghị - Free tier)
+# 1. Push repo lên GitHub
+# 2. Render Dashboard → New → Blueprint
+# 3. Connect repo → render.yaml tự động được đọc
+# 4. Set AGENT_API_KEY trong Render dashboard
+# 5. Deploy!
 
-# Hoặc Render
-# Push lên GitHub → Connect Render → Deploy
+# Railway
+cd 06-lab-complete
+railway init
+railway variables set AGENT_API_KEY=your-secret-key
+railway up
+railway domain
 ```
 
 ###  Validation

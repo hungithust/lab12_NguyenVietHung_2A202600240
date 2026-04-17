@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"d:\\\\vinlab\\\\lab12\\\\day12_ha-tang-cloud_va_deployment\\\\06-lab-complete\")"
+    ]
+  }
+}

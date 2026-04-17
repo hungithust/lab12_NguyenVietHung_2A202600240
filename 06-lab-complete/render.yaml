@@ -2,15 +2,20 @@ services:
   - type: web
     name: ai-agent-production
     runtime: docker
+    rootDir: 06-lab-complete
     region: singapore
-    plan: starter
+    plan: free
     healthCheckPath: /health
     autoDeploy: true
     envVars:
       - key: ENVIRONMENT
         value: production
+      - key: APP_NAME
+        value: "Production AI Agent"
       - key: APP_VERSION
         value: "1.0.0"
+      - key: PORT
+        value: "8000"
       - key: OPENAI_API_KEY
         sync: false
       - key: AGENT_API_KEY
@@ -20,4 +25,6 @@ services:
       - key: DAILY_BUDGET_USD
         value: "5.0"
       - key: RATE_LIMIT_PER_MINUTE
-        value: "20"
+        value: "10"
+      - key: ALLOWED_ORIGINS
+        value: "*"

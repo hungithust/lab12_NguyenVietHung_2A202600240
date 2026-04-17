@@ -1079,15 +1079,15 @@ D:\...>curl -H "X-API-Key: dev-key-change-me" http://localhost:8000/metrics
 4. Render tự đọc `06-lab-complete/render.yaml` (nhờ `rootDir: 06-lab-complete`)
 5. Set `OPENAI_API_KEY` (để trống nếu dùng mock LLM)
 6. Click **Deploy**
-7. Nhận public URL: `https://ai-agent-production.onrender.com`
+7. Nhận public URL: `https://lab12-nguyenviethung-2a202600240.onrender.com`
 
 **Verify deployment:**
 ```bash
-curl https://ai-agent-production.onrender.com/health
+curl https://lab12-nguyenviethung-2a202600240.onrender.com/health
 # Expected: {"status":"ok","version":"1.0.0",...}
 
-curl -X POST https://ai-agent-production.onrender.com/ask \
-  -H "X-API-Key: <key-from-render-dashboard>" \
+curl -X POST https://lab12-nguyenviethung-2a202600240.onrender.com/ask \
+  -H "X-API-Key: [ENCRYPTION_KEY]" \
   -H "Content-Type: application/json" \
   -d '{"question": "Hello from production!"}'
 # Expected: 200 with agent response
